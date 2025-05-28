@@ -104,6 +104,17 @@ $totalMenus = DB::table('menus')
     ->where('client_id', $clientId)
     ->count();
 
+    $processingOrders = DB::table('orders')
+    ->where('status', 'processing')
+    ->whereIn('id', function ($query) use ($clientId) {
+        $query->select('order_id')->from('order_items')->where('client_id', $clientId);
+    })->count();
+
+    $deliveredOrders = DB::table('orders')
+    ->where('status', 'deliverd')
+    ->whereIn('id', function ($query) use ($clientId) {
+        $query->select('order_id')->from('order_items')->where('client_id', $clientId);
+    })->count();
 
     // Active Coupons
     $activeCoupons = DB::table('coupons')
@@ -126,17 +137,33 @@ $totalMenus = DB::table('menus')
             ->sum(DB::raw('qty * price'));
     }
 
+    $topProducts = DB::table('order_items')
+    ->select('products.name', DB::raw('SUM(order_items.qty) as total_sold'))
+    ->join('products', 'order_items.product_id', '=', 'products.id')
+    ->where('order_items.client_id', $clientId)
+    ->groupBy('order_items.product_id', 'products.name')
+    ->orderByDesc('total_sold')
+    ->limit(5)
+    ->get();
+
+$topProductNames = $topProducts->pluck('name')->toArray();
+$topProductSales = $topProducts->pluck('total_sold')->toArray();
+
     return view('client.index', compact(
-        'totalOrders',
-        'totalRevenue',
-        'totalTransactions',
-        'totalProducts',
-        'pendingOrders',
-        'totalMenus',
-        'activeCoupons',
-        'monthlyRevenue',
-        'months'
-    ));
+    'totalOrders',
+    'totalRevenue',
+    'totalTransactions',
+    'totalProducts',
+    'pendingOrders',
+    'totalMenus',
+    'activeCoupons',
+    'monthlyRevenue',
+    'processingOrders',
+    'deliveredOrders',
+    'months',
+    'topProductNames',
+    'topProductSales'
+));
 }
     // End Method 
 

@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\Websitemail;
 use App\Models\Admin;
+use App\Models\Order;
+use App\Models\User;
+use App\Models\Client;
+use App\Models\Product;
+use App\Models\Coupon;
 
 class AdminController extends Controller
 {
@@ -16,8 +21,28 @@ class AdminController extends Controller
    }
    // End Method 
 
-   public function AdminDashboard(){
-    return view('admin.index');
+   public function AdminDashboard() {
+    $totalUsers = User::count();
+    $totalClients = Client::count();
+    $totalOrders = Order::count();
+    $totalRevenue = Order::sum('amount'); // Update if field name differs
+    $pendingClients = Client::where('status', 0)->count();
+    $totalProducts = Product::count();
+    $activeCoupons = Coupon::where('status', 1)->count();
+    $pendingOrders = Order::where('status', 'pending')->count();
+    $deliveredOrders = Order::where('status', 'delivered')->count();
+
+    return view('admin.index', compact(
+        'totalUsers',
+        'totalClients',
+        'totalOrders',
+        'totalRevenue',
+        'pendingClients',
+        'totalProducts',
+        'activeCoupons',
+        'pendingOrders',
+        'deliveredOrders'
+    ));
 }
 // End Method 
 

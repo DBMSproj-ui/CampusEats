@@ -35,7 +35,7 @@
         <!-- Stat + Graph Cards -->
         <div class="row">
             <!-- Monthly Revenue -->
-            <div class="col-xl-4 col-md-6">
+            <div class="col-xl-3 col-md-4 col-sm-6">
                 <div class="card card-h-100">
                     <div class="card-body pb-0">
                         <h6 class="text-muted mb-2">Monthly Revenue</h6>
@@ -45,7 +45,7 @@
             </div>
 
             <!-- Order Status Pie -->
-            <div class="col-xl-4 col-md-6">
+            <div class="col-xl-3 col-md-4 col-sm-6">
                 <div class="card card-h-100">
                     <div class="card-body pb-0">
                         <h6 class="text-muted mb-2">Order Status</h6>
@@ -55,7 +55,7 @@
             </div>
 
             <!-- Top Selling Products -->
-            <div class="col-xl-4 col-md-6">
+            <div class="col-xl-3 col-md-4 col-sm-6">
                 <div class="card card-h-100">
                     <div class="card-body pb-0">
                         <h6 class="text-muted mb-2">Top Selling Products</h6>
@@ -70,7 +70,7 @@
                 ['label' => 'Total Menus', 'value' => $totalMenus, 'color' => 'info', 'icon' => 'mdi mdi-book-open-variant'],
                 ['label' => 'Total Orders', 'value' => $totalOrders, 'color' => 'success', 'icon' => 'mdi mdi-cart-check']
             ] as $stat)
-                <div class="col-xl-4 col-md-6">
+                <div class="col-xl-3 col-md-4 col-sm-6">
                     <div class="card card-h-100">
                         <div class="card-body">
                             <div class="row align-items-center">

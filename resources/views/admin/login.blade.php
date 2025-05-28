@@ -35,13 +35,13 @@
                         <div class="d-flex flex-column h-100">
                             <div class="mb-4 mb-md-5 text-center">
                                 <a href="index.html" class="d-block auth-logo">
-                                    <img src="{{ asset('backend/assets/images/logo-sm.svg') }}" alt="" height="28"> <span class="logo-txt">Admin Login</span>
+                                     <span class="logo-txt">Admin Login</span>
                                 </a>
                             </div>
                             <div class="auth-content my-auto">
                                 <div class="text-center">
                                     <h5 class="mb-0">Welcome Back !</h5>
-                                    <p class="text-muted mt-2">Sign in to continue to Minia.</p>
+                                    <p class="text-muted mt-2">Sign in to continue</p>
                                 </div>
 
     @if ($errors->any())
@@ -121,12 +121,12 @@
                                 </div>
 
                                 <div class="mt-5 text-center">
-                                    <p class="text-muted mb-0">Don't have an account ? <a href="auth-register.html"
-                                            class="text-primary fw-semibold"> Signup now </a> </p>
+                                    <p class="text-muted mb-0"><a href="register"
+                                            class="text-primary fw-semibold"></a> </p>
                                 </div>
                             </div>
                             <div class="mt-4 mt-md-5 text-center">
-                                <p class="mb-0">© <script>document.write(new Date().getFullYear())</script> EasyLearing   . Crafted with <i class="mdi mdi-heart text-danger"></i> by EasyLearing</p>
+                                <p class="mb-0"></p>
                             </div>
                         </div>
                     </div>
@@ -165,22 +165,17 @@
                     <div class="testi-contain text-white">
                         <i class="bx bxs-quote-alt-left text-success display-6"></i>
 
-                        <h4 class="mt-4 fw-medium lh-base text-white">“I feel confident
-                            imposing change
-                            on myself. It's a lot more progressing fun than looking back.
-                            That's why
-                            I ultricies enim
-                            at malesuada nibh diam on tortor neaded to throw curve balls.”
-                        </h4>
+                        <h4 class="mt-4 fw-medium lh-base text-white">“Running a campus restaurant has never been this smooth. Orders, customers, promotions — all in one place.”</h4>
+
                         <div class="mt-4 pt-3 pb-5">
                             <div class="d-flex align-items-start">
                                 <div class="flex-shrink-0">
                                     <img src="{{ asset('backend/assets/images/users/avatar-1.jpg') }}" class="avatar-md img-fluid rounded-circle" alt="...">
                                 </div>
                                 <div class="flex-grow-1 ms-3 mb-4">
-                                    <h5 class="font-size-18 text-white">Richard Drews
+                                    <h5 class="font-size-18 text-white">Sanya Mehta
                                     </h5>
-                                    <p class="mb-0 text-white-50">Web Designer</p>
+                                    <p class="mb-0 text-white-50">Student</p>
                                 </div>
                             </div>
                         </div>
@@ -191,21 +186,17 @@
                     <div class="testi-contain text-white">
                         <i class="bx bxs-quote-alt-left text-success display-6"></i>
 
-                        <h4 class="mt-4 fw-medium lh-base text-white">“Our task must be to
-                            free ourselves by widening our circle of compassion to embrace
-                            all living
-                            creatures and
-                            the whole of quis consectetur nunc sit amet semper justo. nature
-                            and its beauty.”</h4>
+                        <h4 class="mt-4 fw-medium lh-base text-white">“Great food delivered fast. CampusEats made it easier for us to serve students on time, every time.”</h4>
+
                         <div class="mt-4 pt-3 pb-5">
                             <div class="d-flex align-items-start">
                                 <div class="flex-shrink-0">
                                     <img src="{{ asset('backend/assets/images/users/avatar-1.jpg') }}" class="avatar-md img-fluid rounded-circle" alt="...">
                                 </div>
                                 <div class="flex-grow-1 ms-3 mb-4">
-                                    <h5 class="font-size-18 text-white">Rosanna French
+                                    <h5 class="font-size-18 text-white">Amit Verma 
                                     </h5>
-                                    <p class="mb-0 text-white-50">Web Developer</p>
+                                    <p class="mb-0 text-white-50">Vendor</p>
                                 </div>
                             </div>
                         </div>
@@ -216,18 +207,14 @@
                     <div class="testi-contain text-white">
                         <i class="bx bxs-quote-alt-left text-success display-6"></i>
 
-                        <h4 class="mt-4 fw-medium lh-base text-white">“I've learned that
-                            people will forget what you said, people will forget what you
-                            did,
-                            but people will never forget
-                            how donec in efficitur lectus, nec lobortis metus you made them
-                            feel.”</h4>
+                        <h4 class="mt-4 fw-medium lh-base text-white">“CampusEats helped us grow from a small stall to one of the most loved delivery services on campus.”</h4>
+
                         <div class="mt-4 pt-3 pb-5">
                             <div class="d-flex align-items-start">
                                 <img src="{{ asset('backend/assets/images/users/avatar-1.jpg') }}" class="avatar-md img-fluid rounded-circle" alt="...">
                                 <div class="flex-1 ms-3 mb-4">
-                                    <h5 class="font-size-18 text-white">Ilse R. Eaton</h5>
-                                    <p class="mb-0 text-white-50">Manager
+                                    <h5 class="font-size-18 text-white">P. Chetry</h5>
+                                    <p class="mb-0 text-white-50">Restaurant Manager
                                     </p>
                                 </div>
                             </div>

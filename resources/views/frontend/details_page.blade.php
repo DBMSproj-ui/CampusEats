@@ -486,7 +486,7 @@ $coupons = App\Models\Coupon::where('client_id',$client->id)->where('status','1'
       @endphp
 
    <div class="gold-members p-2 border-bottom">
-         <p class="text-gray mb-0 float-right ml-2">${{ $details['price'] * $details['quantity'] }}</p>
+         <p class="text-gray mb-0 float-right ml-2">₹{{ $details['price'] * $details['quantity'] }}</p>
          <span class="count-number float-right">
         
         <button class="btn btn-outline-secondary  btn-sm left dec" data-id="{{ $id }}" > <i class="icofont-minus"></i> </button>
@@ -523,9 +523,9 @@ $coupons = App\Models\Coupon::where('client_id',$client->id)->where('status','1'
          <span class="float-right text-success">
 
             @if (Session::has('coupon'))
-               ${{ $total - Session()->get('coupon')['discount_amount'] }}
+               ₹{{ $total - Session()->get('coupon')['discount_amount'] }}
             @else
-            ${{ $total }}
+            ₹{{ $total }}
             @endif
            
          </span>
@@ -533,9 +533,9 @@ $coupons = App\Models\Coupon::where('client_id',$client->id)->where('status','1'
       <hr />
       <h6 class="font-weight-bold mb-0">TO PAY  <span class="float-right">
       @if (Session::has('coupon'))
-      ${{ Session()->get('coupon')['discount_amount'] }}
+      ₹{{ Session()->get('coupon')['discount_amount'] }}
       @else
-      ${{ $total }}
+      ₹{{ $total }}
       @endif</span></h6>
    </div>
        
@@ -556,9 +556,9 @@ $coupons = App\Models\Coupon::where('client_id',$client->id)->where('status','1'
       <img class="img-fluid float-left" src="{{ asset('frontend/img/wallet-icon.png') }}">
       <h6 class="font-weight-bold text-right mb-2">Subtotal : <span class="text-danger"> 
          @if (Session::has('coupon'))
-         ${{ Session()->get('coupon')['discount_amount'] }}
+         ₹{{ Session()->get('coupon')['discount_amount'] }}
          @else
-         ${{ $total }}
+         ₹{{ $total }}
          @endif
       </span></h6>
       <p class="seven-color mb-1 text-right">Extra charges may apply</p>

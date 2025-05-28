@@ -29,13 +29,13 @@
                          <a class="locate-me" href="#"><i class="icofont-ui-pointer"></i> Locate Me</a>
                       </div>
                       <div class="col-lg-2 col-md-2 col-sm-12 form-group">
-                         <a href="listing.html" class="btn btn-primary btn-block btn-lg btn-gradient">Search</a>
+                         <a href="/" class="btn btn-primary btn-block btn-lg btn-gradient">Search</a>
                          <!--<button type="submit" class="btn btn-primary btn-block btn-lg btn-gradient">Search</button>-->
                       </div>
                    </div>
                 </form>
              </div>
-             <h6 class="mt-4 text-shadow text-white font-weight-normal">E.g. Beverages, Pizzas, Chinese, Bakery, Indian...</h6>
+             <h6 class="mt-4 text-shadow text-white font-weight-normal">Indian, Chinese, ,Bevereges, Pizzas, Bakery...</h6>
              <div class="owl-carousel owl-carousel-category owl-theme">
     @php
        $products = App\Models\Product::latest()->limit(8)->get();

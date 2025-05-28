@@ -51,7 +51,7 @@
                 <td>{{ $key+1 }}</td>
                 <td>{{ $order->order_date }}</td>
                 <td>{{ $order->invoice_no }}</td>
-                <td>${{ $order->amount }}</td>
+                <td>₹{{ $order->amount }}</td>
                 <td>{{ $order->payment_method }}</td>
                 <td>
                     @if (strtolower($order->status) == 'pending')
@@ -61,7 +61,7 @@
                     @elseif ($order->status == 'processing')
                     <span class="badge bg-warning">Processing</span>
                     @elseif ($order->status == 'deliverd')
-                    <span class="badge bg-success">Deliverd</span>
+                    <span class="badge bg-success">Delivered</span>
                     @endif
                    </td>                
                
@@ -103,7 +103,6 @@
     </div> <!-- container-fluid -->
 </div>
 
- 
    
 
 

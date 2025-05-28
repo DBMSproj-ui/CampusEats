@@ -26,7 +26,7 @@
     <div class="col">
         <div class="card">
          <div class="card-header">
-            <h4>Shipping Details</h4>
+            <h4>Delivery Details</h4>
          </div>
                 
             <div class="card-body">
@@ -35,19 +35,19 @@
  
         <tbody>
             <tr> 
-                <th width="50%">Shipping Name: </th>
+                <th width="50%">Delivery Name: </th>
                 <td>{{ $order->name }}</td> 
             </tr> 
             <tr> 
-                <th width="50%">Shipping Phone: </th>
+                <th width="50%">Delivery Phone: </th>
                 <td>{{ $order->phone }}</td> 
             </tr>
             <tr> 
-                <th width="50%">Shipping Email: </th>
+                <th width="50%">Delivery Email: </th>
                 <td>{{ $order->email }}</td> 
             </tr>
             <tr> 
-                <th width="50%">Shipping Address: </th>
+                <th width="50%">Delivery Address: </th>
                 <td>{{ $order->address }}</td> 
             </tr>
             <tr> 
@@ -101,7 +101,7 @@
             </tr> 
             <tr> 
                 <th width="50%">Order Amount: </th>
-                <td>${{ $order->amount }}</td> 
+                <td>₹{{ $order->amount }}</td> 
             </tr> 
             <tr> 
                 <th width="50%">Order Status: </th>
@@ -183,7 +183,7 @@
         </td>
         <td class="col-md-2">
             <label>
-                {{ $item->price }} <br> Total = $ {{ $item->price * $item->qty }}
+                {{ $item->price }} <br> Total = ₹ {{ $item->price * $item->qty }}
             </label>
         </td> 
     </tr> 
@@ -191,7 +191,7 @@
                 </tbody>
             </table>
     <div>
-        <h4>Total Price: $ {{ $totalPrice }}</h4>
+        <h4>Total Price: ₹ {{ $totalPrice }}</h4>
     </div>
 
         </div>

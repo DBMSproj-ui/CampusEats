@@ -2,11 +2,11 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
-                <script>document.write(new Date().getFullYear())</script> © Easy.
+                <script>document.write(new Date().getFullYear())</script> © CampusEats.
             </div>
             <div class="col-sm-6">
                 <div class="text-sm-end d-none d-sm-block">
-                    Design & Develop by <a href="#!" class="text-decoration-underline">Easylearningbd</a>
+                    <a href="#!" class="text-decoration-underline"></a>
                 </div>
             </div>
         </div>

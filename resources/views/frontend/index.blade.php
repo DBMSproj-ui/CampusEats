@@ -54,7 +54,7 @@
                      @if ($coupons)
                      <span class="badge badge-success">OFFER</span> <small>{{ $coupons->discount  }}% off | Use Coupon {{ $coupons->coupon_name  }}</small>
                      @else 
-                     <span class="badge badge-success">OFFER</span> <small>Right Now There Have No Coupon</small>
+                     <span class="badge badge-success">OFFER</span> <small>No coupons available right now</small>
                      @endif
                      
                   </div>
