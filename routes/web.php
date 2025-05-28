@@ -43,7 +43,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/user/order/list', 'UserOrderList')->name('user.order.list'); 
         Route::get('/user/order/details/{id}', 'UserOrderDetails')->name('user.order.details');
         Route::get('/user/invoice/download/{id}', 'UserInvoiceDownload')->name('user.invoice.download'); 
-        Route::get('/user/order/mark-delivered/{id}', [ManageOrderController::class, 'UserMarkAsDelivered'])->name('user.order.mark.delivered');
         
     });
    
@@ -79,6 +78,8 @@ Route::middleware('client')->group(function () {
     Route::post('/client/profile/store', [ClientController::class, 'ClientProfileStore'])->name('client.profile.store');
     Route::get('/client/change/password', [ClientController::class, 'ClientChangePassword'])->name('client.change.password');
     Route::post('/client/password/update', [ClientController::class, 'ClientPasswordUpdate'])->name('client.password.update');
+    Route::get('/client/order/processing-to-delivered/{id}', [ManageOrderController::class, 'ClientProcessingToDelivered'])->name('client.processing.to.delivered');
+
     
 }); 
 

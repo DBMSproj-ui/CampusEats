@@ -132,28 +132,6 @@ class ManageOrderController extends Controller
     return redirect()->back()->with('error', 'Only pending orders can be updated.');
 }
 
-public function UserMarkAsDelivered($id)
-{
-    $order = Order::findOrFail($id);
-
-    // Check if the order belongs to the currently logged-in user
-    if ($order->user_id != Auth::id()) {
-        return redirect()->back()->with('error', 'Unauthorized action.');
-    }
-
-    // Allow only if current status is 'processing'
-    if (strtolower($order->status) === 'processing') {
-        $order->status = 'deliverd'; // Match existing spelling in DB
-        $order->delivered_date = now();
-        $order->save();
-
-        return redirect()->back()->with('success', 'Order marked as delivered.');
-    }
-
-    return redirect()->back()->with('error', 'Only processing orders can be marked as delivered.');
-}
-
-
     public function UserOrderList(){
         $userId = Auth::user()->id;
         $allUserOrder = Order::where('user_id',$userId)->orderBy('id','desc')->get();
@@ -190,6 +168,31 @@ public function UserMarkAsDelivered($id)
         return $pdf->download('invoice.pdf');        
     }
      //End Method 
+
+     public function ClientProcessingToDelivered($id)
+{
+    $order = Order::findOrFail($id);
+
+    // Check if client owns items in the order
+    $clientId = Auth::guard('client')->id();
+    $hasAccess = \App\Models\OrderItem::where('order_id', $order->id)
+        ->where('client_id', $clientId)
+        ->exists();
+
+    if (!$hasAccess) {
+        return redirect()->back()->with('error', 'Unauthorized action.');
+    }
+
+    if (strtolower($order->status) === 'processing') {
+        $order->status = 'deliverd';
+        $order->delivered_date = now();
+        $order->save();
+
+        return redirect()->back()->with('success', 'Order marked as Delivered.');
+    }
+
+    return redirect()->back()->with('error', 'Only processing orders can be marked as delivered.');
+}
 
 
 

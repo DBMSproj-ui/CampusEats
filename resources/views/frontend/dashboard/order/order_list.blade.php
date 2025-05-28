@@ -66,14 +66,6 @@
     <a href="{{ route('user.invoice.download', $item->id) }}" class="btn btn-sm btn-outline-danger mb-1">
         <i class="fa fa-download"></i> Invoice
     </a>
-
-    @if (strtolower($item->status) === 'processing')
-        <a href="{{ route('user.order.mark.delivered', $item->id) }}"
-           class="btn btn-sm btn-outline-success"
-           onclick="return confirm('Are you sure you want to mark this order as delivered?');">
-           <i class="fas fa-check-circle"></i> Mark as Delivered
-        </a>
-    @endif
 </td>
 
                 </tr>

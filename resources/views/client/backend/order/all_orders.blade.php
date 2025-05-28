@@ -78,6 +78,14 @@
             Mark as Processing
         </a>
     @endif
+    @if (strtolower($order->status) === 'processing')
+    <a href="{{ route('client.processing.to.delivered', $order->id) }}"
+       class="btn btn-success btn-sm mt-1"
+       onclick="return confirm('Mark this order as Delivered?')">
+        Mark as Delivered
+    </a>
+@endif
+
 </td>
 
             </tr>
