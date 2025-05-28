@@ -20,7 +20,7 @@
                    <a class="dropdown-item" href="#">Rating</a>
                 </div>
              </div>
-             <h4 class="font-weight-bold mt-0 mb-3">OFFERS <small class="h6 mb-0 ml-2">299 restaurants
+             <h4 class="font-weight-bold mt-0 mb-3">OFFERS <small class="h6 mb-0 ml-2">
                 </small>
              </h4>
           </div>
