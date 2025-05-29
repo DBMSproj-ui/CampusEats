@@ -33,11 +33,7 @@
                 <div class="auth-full-page-content d-flex p-sm-5 p-4">
                     <div class="w-100">
                         <div class="d-flex flex-column h-100">
-                            <div class="mb-4 mb-md-5 text-center">
-                                <a href="index.html" class="d-block auth-logo">
-                                    <img src="{{ asset('backend/assets/images/logo-sm.svg') }}" alt="" height="28"> <span class="logo-txt">Client Register</span>
-                                </a>
-                            </div>
+                            
                             <div class="auth-content my-auto">
                                 <div class="text-center">
                                     <h5 class="mb-0">Welcome Back !</h5>
@@ -82,11 +78,7 @@
             <div class="flex-grow-1">
                 <label class="form-label">Password</label>
             </div>
-            <div class="flex-shrink-0">
-                <div class="">
-                    <a href="{{ route('admin.forget_password') }}" class="text-muted">Forgot password?</a>
-                </div>
-            </div>
+            
         </div>
         
         <div class="input-group auth-pass-inputgroup">

@@ -33,7 +33,7 @@ $coupons = App\Models\Coupon::where('client_id',$client->id)->where('status','1'
                 <div class="restaurant-detailed-header-right text-right">
                    <button class="btn btn-success" type="button"><i class="icofont-clock-time"></i> 25–35 min
                    </button>
-                   <h6 class="text-white mb-0 restaurant-detailed-ratings"><span class="generator-bg rounded text-white"><i class="icofont-star"></i> 3.1</span> 23 Ratings  <i class="ml-3 icofont-speech-comments"></i> 91 reviews</h6>
+                   <h6 class="text-white mb-0 restaurant-detailed-ratings"><span class="generator-bg rounded text-white"><i class="icofont-star"></i> 4</span> 1 Ratings  <i class="ml-3 icofont-speech-comments"></i> 1 reviews</h6>
                 </div>
              </div>
           </div>
@@ -129,7 +129,7 @@ $coupons = App\Models\Coupon::where('client_id',$client->id)->where('status','1'
             <div class="p-3 position-relative">
                 <div class="list-card-body">
                     <h6 class="mb-1"><a href="#" class="text-black">{{$bestseller->name}}</a></h6>
-                    <p class="text-gray mb-2">{{ $bestseller['city']['city_name'] }}</p>
+                    
                    
                     <p class="text-gray time mb-0">
                         @if ($bestseller->discount_price == NULL)

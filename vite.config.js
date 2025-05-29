@@ -4,8 +4,7 @@ import laravel from 'laravel-vite-plugin';
 export default defineConfig({
     server: {
         hmr: {
-            host: 'vite456.ngrok.io', // Only hostname, no https://
-            protocol: 'wss',
+            host: 'localhost',
         },
     },
     plugins: [

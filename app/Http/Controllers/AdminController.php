@@ -30,7 +30,7 @@ class AdminController extends Controller
     $totalProducts = Product::count();
     $activeCoupons = Coupon::where('status', 1)->count();
     $pendingOrders = Order::where('status', 'pending')->count();
-    $deliveredOrders = Order::where('status', 'delivered')->count();
+    $deliveredOrders = Order::where('status', 'deliverd')->count();
 
     return view('admin.index', compact(
         'totalUsers',

@@ -176,7 +176,7 @@
       @endphp
 
    <div class="gold-members p-2 border-bottom">
-         <p class="text-gray mb-0 float-right ml-2">${{ $details['price'] * $details['quantity'] }}</p>
+         <p class="text-gray mb-0 float-right ml-2">₹{{ $details['price'] * $details['quantity'] }}</p>
          <span class="count-number float-right">
         
         <button class="btn btn-outline-secondary  btn-sm left dec" data-id="{{ $id }}" > <i class="icofont-minus"></i> </button>
@@ -213,9 +213,9 @@
          <span class="float-right text-success">
 
             @if (Session::has('coupon'))
-               ${{ $total - Session()->get('coupon')['discount_amount'] }}
+               ₹{{ $total - Session()->get('coupon')['discount_amount'] }}
             @else
-            ${{ $total }}
+            ₹{{ $total }}
             @endif
            
          </span>
@@ -223,9 +223,9 @@
       <hr />
       <h6 class="font-weight-bold mb-0">TO PAY  <span class="float-right">
       @if (Session::has('coupon'))
-      ${{ Session()->get('coupon')['discount_amount'] }}
+      ₹{{ Session()->get('coupon')['discount_amount'] }}
       @else
-      ${{ $total }}
+      ₹{{ $total }}
       @endif</span></h6>
    </div>
       
@@ -243,13 +243,23 @@
     
      
 
-        <a href="thanks.html" class="btn btn-success btn-block btn-lg">PAY  
-            @if (Session::has('coupon'))
-            ${{ Session()->get('coupon')['discount_amount'] }}
-            @else
-            ${{ $total }}
-            @endif
-        <i class="icofont-long-arrow-right"></i></a>
+        <form action="{{ route('cash_order') }}" method="post">
+    @csrf
+    <input type="hidden" name="name" value="{{ Auth::user()->name }}">
+    <input type="hidden" name="email" value="{{ Auth::user()->email }}">
+    <input type="hidden" name="phone" value="{{ Auth::user()->phone }}">
+    <input type="hidden" name="address" value="{{ Auth::user()->address }}">
+
+    <button type="submit" class="btn btn-success btn-block btn-lg">PAY  
+        @if (Session::has('coupon'))
+        ₹{{ Session()->get('coupon')['discount_amount'] }}
+        @else
+        ₹{{ $total }}
+        @endif
+        <i class="icofont-long-arrow-right"></i>
+    </button>
+</form>
+
         </div>
         <div class="pt-2"></div>
              

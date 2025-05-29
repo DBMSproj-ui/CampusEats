@@ -48,14 +48,14 @@
     <tr>
         <td valign="top">
           <!-- {{-- <img src="" alt="" width="150"/> --}} -->
-          <h2 style="color: green; font-size: 26px;"><strong>EasyShop</strong></h2>
+          <h2 style="color: green; font-size: 26px;"><strong>CampusEats</strong></h2>
         </td>
         <td align="right">
             <pre class="font" >
-               EasyShop Head Office
-               Email:support@easylearningbd.com <br>
-               Mob: 1245454545 <br>
-               Dhaka 1207,Dhanmondi:#4 <br>
+               Tezpur University
+               Email:support@campuseats.com <br>
+               Mob: 7642920452 <br>
+               Naapam, Tezpur <br>
               
             </pre>
         </td>
@@ -98,7 +98,7 @@
         <th>Product Name</th> 
         <th>Code</th>
         <th>Quantity</th>
-        <th>Restruant Name</th>
+        <th>Restaurant Name</th>
         <th>Total </th>
       </tr>
     </thead>
