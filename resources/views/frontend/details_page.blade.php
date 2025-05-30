@@ -48,7 +48,6 @@ $coupons = App\Models\Coupon::where('client_id',$client->id)->where('status','1'
              <span class="restaurant-detailed-action-btn float-right">
              <button class="btn btn-light btn-sm border-light-btn" type="button"><i class="icofont-heart text-danger"></i> Mark as Favourite</button>
              <button class="btn btn-light btn-sm border-light-btn" type="button"><i class="icofont-cauli-flower text-success"></i>  Pure Veg</button>
-             <button class="btn btn-outline-danger btn-sm" type="button"><i class="icofont-sale-discount"></i>  OFFERS</button>
              </span>
              <ul class="nav" id="pills-tab" role="tablist">
                 <li class="nav-item">
@@ -325,10 +324,6 @@ $coupons = App\Models\Coupon::where('client_id',$client->id)->where('status','1'
 
       </div>
 
-
-      <div class="graph-star-rating-footer text-center mt-3 mb-3">
-         <button type="button" class="btn btn-outline-primary btn-sm">Rate and Review</button>
-      </div>
    </div>
    <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
       <a href="#" class="btn btn-outline-primary btn-sm float-right">Top Rated</a>

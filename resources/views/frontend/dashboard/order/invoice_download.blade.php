@@ -88,7 +88,7 @@
     </tr>
   </table>
   <br/>
-<h3>Products</h3>
+<h3>Items</h3>
 
 
   <table width="100%">
@@ -122,15 +122,13 @@
   <table width="100%" style=" padding:0 10px 0 10px;">
     <tr>
         <td align="right" >
-            <h2><span style="color: green;">Subtotal:</span> Subtotal tk</h2>
-            <h2><span style="color: green;">Total:</span>
-                {{ $totalPrice }}</h2>
-            {{-- <h2><span style="color: green;">Full Payment PAID</h2> --}}
+            <h2><span style="color: green;">Total price: </span>{{ $totalPrice }}</h2>
+             <h2><span style="color: green;">Final Price: </span>{{ $order->total_amount }}</h2>
         </td>
     </tr>
   </table>
   <div class="thanks mt-3">
-    <p>Thanks For Buying Products..!!</p>
+    <p>Thanks For Buying..!!</p>
   </div>
   <div class="authority float-right mt-5">
       <p>-----------------------------------</p>

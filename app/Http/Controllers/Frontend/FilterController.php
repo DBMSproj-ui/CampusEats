@@ -13,37 +13,35 @@ class FilterController extends Controller
 {
     public function ListRestaurant(){
         $products = Product::all();
-        return view('frontend.list_restaurant',compact('products'));
+        return view('frontend.list_restaurant', compact('products'));
     }
-    //End Method 
+    // End Method 
 
-    public function FilterProducts(Request $request){
-
-        // Log::info('request data' , $request->all());
-
+    public function FilterProducts(Request $request)
+    {
+        // Log::info('request data', $request->all());
 
         $categoryId = $request->input('categorys');
         $menuId = $request->input('menus');
-        $cityId = $request->input('citys');
+        // $cityId = $request->input('citys'); // ❌ Removed
 
         $products = Product::query();
 
         if ($categoryId) {
-            $products->whereIn('category_id',$categoryId);
+            $products->whereIn('category_id', $categoryId);
         }
+
         if ($menuId) {
-            $products->whereIn('menu_id',$menuId);
+            $products->whereIn('menu_id', $menuId);
         }
-        if ($cityId) {
-            $products->whereIn('city_id',$cityId);
-        }
+
+        // if ($cityId) {
+        //     $products->whereIn('city_id', $cityId); // ❌ Removed
+        // }
 
         $filterProducts = $products->get();
 
-        return view('frontend.product_list',compact('filterProducts'))->render();
-
+        return view('frontend.product_list', compact('filterProducts'))->render();
     }
-    //End Method 
-
-
-} 
+    // End Method 
+}

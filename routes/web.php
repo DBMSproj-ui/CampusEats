@@ -265,4 +265,3 @@ Route::controller(FilterController::class)->group(function(){
     Route::get('/filter/products', 'FilterProducts')->name('filter.products');
     
 });
-

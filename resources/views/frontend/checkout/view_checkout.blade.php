@@ -43,11 +43,11 @@
                     <div class="media">
                         <div class="mr-3"><i class="icofont-briefcase icofont-3x"></i></div>
                         <div class="media-body">
-                            <h6 class="mb-1 text-secondary">Work</h6>
-                            <p>NCC, Model Town Rd Town, Ludhiana, Punjab 141002, India
+                            <h6 class="mb-1 text-secondary">LOCATION</h6>
+                            <p>GPS based
                             </p>
                             <p class="mb-0 text-black font-weight-bold"><a class="btn btn-sm btn-secondary mr-2" href="#"> DELIVER HERE</a> 
-                            <span>40MIN</span>
+                            <span>X MIN</span>
                             </p>
                         </div>
                     </div>

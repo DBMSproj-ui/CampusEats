@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->nullable();
             $table->integer('category_id');
-            $table->integer('city_id');
             $table->integer('menu_id');
             $table->string('code')->nullable();
             $table->string('qty')->nullable();

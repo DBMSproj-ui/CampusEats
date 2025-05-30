@@ -30,16 +30,25 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                <ul class="navbar-nav ml-auto">
-                  <li class="nav-item active">
-                     <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="/"><i class="icofont-sale-discount"></i> Offers <span class="badge badge-danger">New</span></a>
-                  </li>
-                  <li class="nav-item dropdown">
-                     <a class="nav-link" href="{{ route('list.restaurant') }}">Restaurants</a>
+                 <li class="nav-item active">
+   <a class="nav-link" href="/">
+      <i class="icofont-ui-home"></i> Home
+      <span class="sr-only">(current)</span>
+   </a>
+</li>
 
-                  </li>
+<li class="nav-item dropdown">
+   <a class="nav-link" href="{{ route('list.restaurant') }}">
+      <i class="icofont-restaurant"></i> Restaurants
+   </a>
+</li>
+
+<li class="nav-item">
+   <a class="nav-link" href="{{ route('user.order.list') }}">
+      <i class="icofont-listing-box"></i> My Orders
+   </a>
+</li>
+
                   @auth
                   @php
                   $id = Auth::user()->id;
