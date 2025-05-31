@@ -36,7 +36,7 @@
                   <div class="star position-absolute"><span class="badge badge-success"><i class="icofont-star"></i>{{ number_format($avarage,1) }} ({{ count($reviewcount ) }}+)</span></div>
                   <div class="favourite-heart text-danger position-absolute"><a aria-label="Add to Wishlist" onclick="addWishList({{$client->id}})" ><i class="icofont-heart"></i></a></div>
                   @if ($coupons)
-                  <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
+                  <div class="member-plan position-absolute"><span class="badge badge-dark">Coupons available</span></div>
                   @else
                   @endif
 

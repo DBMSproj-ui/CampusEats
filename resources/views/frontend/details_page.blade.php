@@ -47,7 +47,6 @@ $coupons = App\Models\Coupon::where('client_id',$client->id)->where('status','1'
           <div class="col-md-12">
              <span class="restaurant-detailed-action-btn float-right">
              <button class="btn btn-light btn-sm border-light-btn" type="button"><i class="icofont-heart text-danger"></i> Mark as Favourite</button>
-             <button class="btn btn-light btn-sm border-light-btn" type="button"><i class="icofont-cauli-flower text-success"></i>  Pure Veg</button>
              </span>
              <ul class="nav" id="pills-tab" role="tablist">
                 <li class="nav-item">
@@ -166,7 +165,7 @@ $coupons = App\Models\Coupon::where('client_id',$client->id)->where('status','1'
                     <img class="mr-3 rounded-pill" src="{{ asset($product->image) }}" alt="Generic placeholder image">
                     <div class="media-body">
                     <h6 class="mb-1">{{$product->name}}</h6>
-                    <p class="text-gray mb-0">₹{{ $product->price }} ({{ $product->size ?? '' }} cm)</p>
+                    <p class="text-gray mb-0">₹{{ $product->price }} ({{ $product->size ?? '' }})</p>
                   
                     </div>
                 </div>
@@ -459,7 +458,7 @@ $coupons = App\Models\Coupon::where('client_id',$client->id)->where('status','1'
                 @if ($coupon == NULL)
                 <p class="mb-0">No Coupon is Available </p>
                 @else
-                <p class="mb-0">{{ $coupon->discount }}% off on orders above $99 | Use coupon <span class="text-danger font-weight-bold">{{ $coupon->coupon_name }}</span></p>
+                <p class="mb-0">{{ $coupon->discount }}% off | Use coupon <span class="text-danger font-weight-bold">{{ $coupon->coupon_name }}</span></p>
                 @endif
                
                 <div class="icon-overlap">
