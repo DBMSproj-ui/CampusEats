@@ -1,33 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- PHPUnit configuration file for automated testing -->
+
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
-         bootstrap="vendor/autoload.php"
+         bootstrap="vendor/autoload.php"  
          colors="true"
 >
+
+    <!-- Define test suites to group tests -->
     <testsuites>
+        <!-- Unit test suite: tests focused on individual classes/functions -->
         <testsuite name="Unit">
             <directory>tests/Unit</directory>
         </testsuite>
+
+        <!-- Feature test suite: tests that cover routes, controllers, full flows -->
         <testsuite name="Feature">
             <directory>tests/Feature</directory>
         </testsuite>
     </testsuites>
+
+    <!-- Define which directories should be included for code coverage -->
     <source>
         <include>
-            <directory>app</directory>
+            <directory>app</directory> <!-- Include application code for code coverage reporting -->
         </include>
     </source>
+
+    <!-- Set environment variables specifically for the test environment -->
     <php>
-        <env name="APP_ENV" value="testing"/>
-        <env name="APP_MAINTENANCE_DRIVER" value="file"/>
-        <env name="BCRYPT_ROUNDS" value="4"/>
-        <env name="CACHE_STORE" value="array"/>
-        <env name="DB_CONNECTION" value="sqlite"/>
-        <env name="DB_DATABASE" value=":memory:"/>
-        <env name="MAIL_MAILER" value="array"/>
-        <env name="PULSE_ENABLED" value="false"/>
-        <env name="QUEUE_CONNECTION" value="sync"/>
-        <env name="SESSION_DRIVER" value="array"/>
-        <env name="TELESCOPE_ENABLED" value="false"/>
+        <env name="APP_ENV" value="testing"/>                   <!-- Set app environment to testing -->
+        <env name="APP_MAINTENANCE_DRIVER" value="file"/>       <!-- Use file driver for maintenance mode -->
+        <env name="BCRYPT_ROUNDS" value="4"/>                   <!-- Reduce hashing rounds to speed up tests -->
+        <env name="CACHE_STORE" value="array"/>                 <!-- Use in-memory array cache -->
+        <env name="DB_CONNECTION" value="sqlite"/>              <!-- Use SQLite database for testing -->
+        <env name="DB_DATABASE" value=":memory:"/>              <!-- Use in-memory SQLite database -->
+        <env name="MAIL_MAILER" value="array"/>                 <!-- Prevent real emails, store in array -->
+        <env name="PULSE_ENABLED" value="false"/>               <!-- Disable Laravel Pulse if enabled -->
+        <env name="QUEUE_CONNECTION" value="sync"/>             <!-- Run queued jobs immediately -->
+        <env name="SESSION_DRIVER" value="array"/>              <!-- Use in-memory session driver -->
+        <env name="TELESCOPE_ENABLED" value="false"/>           <!-- Disable Laravel Telescope in tests -->
     </php>
+
 </phpunit>

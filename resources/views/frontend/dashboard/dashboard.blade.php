@@ -7,9 +7,9 @@
       <meta name="description" content="Askbootstrap">
       <meta name="author" content="Askbootstrap">
       <meta name="csrf-token" content="{{ csrf_token() }}" >
-      <title>User Dashboard - Online Food Ordering Website</title>
+      <title>User Dashboard</title>
       <!-- Favicon Icon -->
-      <link rel="icon" type="image/png" href="{{ asset('frontend/img/favicon.png') }}">
+
       <!-- Bootstrap core CSS-->
       <link href="{{ asset('frontend/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
       <!-- Font Awesome-->

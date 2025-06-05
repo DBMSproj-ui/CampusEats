@@ -53,7 +53,25 @@
                                     <tr><th>Transx Id:</th><td>{{ $order->transaction_id }}</td></tr>
                                     <tr><th>Invoice:</th><td class="text-danger">{{ $order->invoice_no }}</td></tr>
                                     <tr><th>Order Amount:</th><td>₹{{ $order->total_amount }}</td></tr>
-                                    <tr><th>Order Status:</th><td><span class="badge bg-success">{{ $order->status }}</span></td></tr>
+                                    <tr>
+    <th>Order Status:</th>
+    <td>
+        @php
+            $status = strtolower($order->status);
+            $statusLabel = [
+                'pending' => ['Pending', 'bg-info'],
+                'confirm' => ['Processing', 'bg-warning text-dark'],
+                'processing' => ['Out for Delivery', 'bg-primary'],
+                'deliverd' => ['Delivered', 'bg-success'],
+            ];
+        @endphp
+
+        <span class="badge {{ $statusLabel[$status][1] ?? 'bg-secondary' }}">
+            {{ $statusLabel[$status][0] ?? ucfirst($order->status) }}
+        </span>
+    </td>
+</tr>
+
                                 </tbody>
                             </table>
                         </div>

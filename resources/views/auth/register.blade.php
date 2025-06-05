@@ -29,7 +29,7 @@
                   <div class="container">
                      <div class="row">
                         <div class="col-md-9 col-lg-8 mx-auto pl-5 pr-5">
-                           <h3 class="login-heading mb-4">Welcome back!</h3>
+                           <h3 class="login-heading mb-4">Register Here!</h3>
         @if ($errors->any())
         @foreach ($errors->all() as $error)
             <li>{{$error }}</li>
@@ -43,7 +43,7 @@
         <li>{{ Session::get('success') }}</li>
     @endif            
 
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('login') }}">
         @csrf
 
         <div class="form-label-group">
@@ -68,7 +68,7 @@
             </div>
             <button type="submit" class="btn btn-lg btn-outline-primary btn-block btn-login text-uppercase font-weight-bold mb-2">Sing Up </button>
             <div class="text-center pt-3">
-                Don’t have an account? <a class="font-weight-bold" href="{{ route('register')}}">Sign Up</a>
+                already have an account? <a class="font-weight-bold" href="{{ route('login')}}">Sign In</a>
             </div>
         </form>
                            <hr class="my-4">

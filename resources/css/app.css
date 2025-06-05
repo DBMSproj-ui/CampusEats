@@ -1,3 +1,12 @@
+/* Import Tailwind’s base styles:
+   Includes normalize.css and other foundational styles
+   that ensure consistency across browsers */
 @tailwind base;
+
+/* Import Tailwind’s component classes:
+   Used for any custom component styles defined using @layer components */
 @tailwind components;
+
+/* Import all of Tailwind’s utility classes:
+   Includes classes like p-4, text-center, bg-red-500, etc. */
 @tailwind utilities;

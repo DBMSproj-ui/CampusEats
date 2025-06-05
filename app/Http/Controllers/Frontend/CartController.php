@@ -12,154 +12,161 @@ use App\Models\Coupon;
 
 class CartController extends Controller
 {
+    // Add a product to the cart by ID
     public function AddToCart($id){
+    // Remove any previously applied coupon
+    if (Session::has('coupon')) {
+        Session::forget('coupon');
+    }
 
-        if (Session::has('coupon')) {
-            Session::forget('coupon');
+    $product = Product::find($id);
+    $clientId = $product->client_id;
+
+    $cart = session()->get('cart', []);
+
+    // If cart is not empty, check if new product matches existing client_id
+    if (!empty($cart)) {
+        $existingClientId = reset($cart)['client_id'];
+
+        if ($existingClientId != $clientId) {
+            return response()->json([
+                'error' => 'You can only add items from one restaurant at a time.'
+            ]);
         }
+    }
 
-        $products = Product::find($id);
+    // Add or update item in cart
+    if (isset($cart[$id])) {
+        $cart[$id]['quantity']++;
+    } else {
+        $priceToShow = isset($product->discount_price) ? $product->discount_price : $product->price;
 
-        $cart = session()->get('cart',[]);
-        if (isset($cart[$id])) {
-           $cart[$id]['quantity']++;
-        } else {
-           $priceToShow = isset($products->discount_price) ? $products->discount_price : $products->price;
-           $cart[$id] = [
+        $cart[$id] = [
             'id' => $id,
-            'name' => $products->name,
-            'image' => $products->image,
+            'name' => $product->name,
+            'image' => $product->image,
             'price' => $priceToShow,
-            'client_id' => $products->client_id,
+            'client_id' => $clientId,
             'quantity' => 1
-           ];
-        }
-        session()->put('cart',$cart);
-
-        // return response()->json($cart);
-        $notification = array(
-            'message' => 'Add to Cart Successfully',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->back()->with($notification);
-        
+        ];
     }
-    //End Method 
 
+    session()->put('cart', $cart);
+
+    return response()->json([
+        'message' => 'Add to Cart Successfully',
+        'alert-type' => 'success'
+    ]);
+}
+
+
+    // Update quantity of a cart item via AJAX
     public function updateCartQuanity(Request $request){
-        $cart = session()->get('cart',[]);
+        $cart = session()->get('cart', []);
 
         if (isset($cart[$request->id])) {
-           $cart[$request->id]['quantity'] = $request->quantity;
-           session()->put('cart',$cart);
+            $cart[$request->id]['quantity'] = $request->quantity;
+            session()->put('cart', $cart);
         }
 
-       return response()->json([
-        'message' => 'Quantity Updated',
-        'alert-type' => 'success'
-       ]);
-
-    }
-     //End Method 
-
-     public function CartRemove(Request $request){
-        $cart = session()->get('cart',[]);
-
-        if (isset($cart[$request->id])) {
-           unset($cart[$request->id]);
-           session()->put('cart',$cart);
-        }
         return response()->json([
-        'message' => 'Cart Remove Successfully',
-        'alert-type' => 'success'
-       ]);
-     }
-      //End Method 
+            'message' => 'Quantity Updated',
+            'alert-type' => 'success'
+        ]);
+    }
 
+    // Remove an item from the cart
+    public function CartRemove(Request $request){
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$request->id])) {
+            unset($cart[$request->id]);
+            session()->put('cart', $cart);
+        }
+
+        return response()->json([
+            'message' => 'Cart Remove Successfully',
+            'alert-type' => 'success'
+        ]);
+    }
+
+    // Apply a coupon to the current cart
     public function ApplyCoupon(Request $request){
-        $coupon = Coupon::where('coupon_name',$request->coupon_name)->where('validity','>=',Carbon::now()->format('Y-m-d'))->first();
+        $coupon = Coupon::where('coupon_name', $request->coupon_name)
+            ->where('validity', '>=', Carbon::now()->format('Y-m-d'))
+            ->first();
 
-        $cart = session()->get('cart',[]);
+        $cart = session()->get('cart', []);
         $totalAmount = 0;
         $clientIds = [];
 
-        foreach($cart as $car){
+        // Calculate total and collect all client IDs in cart
+        foreach ($cart as $car) {
             $totalAmount += ($car['price'] * $car['quantity']);
             $pd = Product::find($car['id']);
             $cdid = $pd->client_id;
-            array_push($clientIds,$cdid);
+            array_push($clientIds, $cdid);
         }
 
         if ($coupon) {
-           if (count(array_unique($clientIds)) === 1) {
-             $cvendorId = $coupon->client_id;
+            // Check if all items are from a single restaurant
+            if (count(array_unique($clientIds)) === 1) {
+                $cvendorId = $coupon->client_id;
 
-             if ($cvendorId == $clientIds[0]) {
-                Session::put('coupon',[ 
-                    'coupon_name' => $coupon->coupon_name,
-                    'discount' => $coupon->discount,
-                    'discount_amount' => $totalAmount - ($totalAmount * $coupon->discount/100),
-                ]);
-                $couponData = Session()->get('coupon');
+                // Check if coupon belongs to the same restaurant
+                if ($cvendorId == $clientIds[0]) {
+                    Session::put('coupon', [
+                        'coupon_name' => $coupon->coupon_name,
+                        'discount' => $coupon->discount,
+                        'discount_amount' => $totalAmount - ($totalAmount * $coupon->discount / 100),
+                    ]);
 
-                return response()->json(array(
-                    'validity' => true,
-                    'success' => 'Coupon Applied Successfully',
-                    'couponData' => $couponData,
-                ));
-             }else{
-                return response()->json(['error' => 'This Coupon Not Valid for this Restrurant']);
-             } 
+                    return response()->json([
+                        'validity' => true,
+                        'success' => 'Coupon Applied Successfully',
+                        'couponData' => Session()->get('coupon'),
+                    ]);
+                } else {
+                    return response()->json(['error' => 'This Coupon Not Valid for this Restrurant']);
+                }
 
-           }else{
-            return response()->json(['error' => 'This Coupon for one of the selected Restrurant']);
-           }
-        }else {
+            } else {
+                return response()->json(['error' => 'This Coupon for one of the selected Restrurant']);
+            }
+        } else {
             return response()->json(['error' => 'Invalid Coupon']);
         }
-
     }
-     //End Method 
 
-     public function CouponRemove(){
+    // Remove applied coupon from session
+    public function CouponRemove(){
         Session::forget('coupon');
         return response()->json(['success' => 'Coupon Remove Successfully']);
-     }
-     //End Method 
+    }
 
+    // Display the checkout view if the user is logged in
     public function ShopCheckout(){
         if (Auth::check()) {
-            $cart = session()->get('cart',[]);
+            $cart = session()->get('cart', []);
             $totalAmount = 0;
+
             foreach ($cart as $car) {
                 $totalAmount += $car['price'];
             }
 
             if ($totalAmount > 0) {
-               return view('frontend.checkout.view_checkout', compact('cart'));
+                return view('frontend.checkout.view_checkout', compact('cart'));
             } else {
-
-                $notification = array(
-                    'message' => 'Shopping at list one item',
+                return redirect()->to('/')->with([
+                    'message' => 'Shopping at least one item',
                     'alert-type' => 'error'
-                ); 
-                return redirect()->to('/')->with($notification);
-            } 
-            
-        }else{
-
-            $notification = array(
+                ]);
+            }
+        } else {
+            return redirect()->route('login')->with([
                 'message' => 'Please Login First',
                 'alert-type' => 'success'
-            );
-    
-            return redirect()->route('login')->with($notification); 
-        } 
+            ]);
+        }
     }
-    //End Method 
-
-
-
 }
- 

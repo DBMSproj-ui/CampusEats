@@ -48,16 +48,32 @@
                                     <tr><th>Transx Id:</th><td>{{ $order->transaction_id }}</td></tr>
                                     <tr><th>Invoice:</th><td class="text-danger">{{ $order->invoice_no }}</td></tr>
                                     <tr><th>Order Amount:</th><td>₹{{ $order->total_amount }}</td></tr>
-                                    <tr><th>Order Status:</th><td><span class="badge bg-success">{{ $order->status }}</span></td></tr>
-                                    <tr> 
+                                    <tr>
+    <th>Order Status:</th>
+    <td>
+        @php
+            $status = strtolower($order->status);
+            $statusMap = [
+                'pending' => ['Pending', 'bg-info'],
+                'confirm' => ['Processing', 'bg-warning text-dark'],
+                'processing' => ['Out for Delivery', 'bg-primary'],
+                'deliverd' => ['Delivered', 'bg-success'],
+            ];
+        @endphp
+        <span class="badge {{ $statusMap[$status][1] ?? 'bg-secondary' }}">
+            {{ $statusMap[$status][0] ?? ucfirst($order->status) }}
+        </span>
+    </td>
+</tr>
+ 
                                         <th></th>
                                         <td> 
                                             @if($order->status == 'Pending')
-                                            <a href="{{ route('pening_to_confirm',$order->id) }}" class="btn btn-block btn-success" id="confirmOrder">Confirm Order</a>
+                                            <a href="{{ route('pening_to_confirm',$order->id) }}" class="btn btn-block btn-success" id="confirmOrder">Mark Processing</a>
                                             @elseif ($order->status == 'confirm')
-                                            <a href="{{ route('confirm_to_processing',$order->id) }}" class="btn btn-block btn-success" id="processingOrder">Processing Order</a>
+                                            <a href="{{ route('confirm_to_processing',$order->id) }}" class="btn btn-block btn-success" id="processingOrder">Mark out for delivery</a>
                                             @elseif ($order->status == 'processing')
-                                            <a href="{{ route('processing_to_deliverd',$order->id) }}" class="btn btn-block btn-success" id="deliverdOrder">Delivered Order</a>
+                                            <a href="{{ route('processing_to_deliverd',$order->id) }}" class="btn btn-block btn-success" id="deliverdOrder">Mark delivered</a>
                                             @endif
                                         </td> 
                                     </tr>

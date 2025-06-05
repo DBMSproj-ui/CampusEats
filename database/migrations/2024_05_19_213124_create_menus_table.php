@@ -6,22 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('menus', function (Blueprint $table) {
-            $table->id();
-            $table->string('menu_name');
-            $table->string('image')->nullable();
-            $table->timestamps();
+            $table->id(); // BIGINT UNSIGNED PRIMARY KEY
+            $table->string('menu_name');       // E.g., "Lunch", "Snacks", "Drinks"
+            $table->string('image')->nullable(); // Optional image for the menu
+
+            // Missing in your version — links the menu to a client (restaurant)
+            $table->foreignId('client_id')
+                  ->constrained('clients')
+                  ->onDelete('cascade'); // Ensures data integrity
+
+            $table->timestamps(); // created_at, updated_at
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('menus');

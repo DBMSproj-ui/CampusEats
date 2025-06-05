@@ -137,9 +137,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Order Status Pie
     new ApexCharts(document.querySelector("#orderStatusChart"), {
         chart: { type: 'pie', height: 220 },
-        series: [{{ $deliveredOrders }}, {{ $pendingOrders }}, {{ $processingOrders }}],
-        labels: ['Delivered', 'Pending', 'Processing'],
-        colors: ['#34c38f', '#f1b44c', '#556ee6'],
+        series: [{{ $pendingOrders }}, {{ $processingOrders }}, {{ $outfordelivery }}, {{ $deliveredOrders}}  ],
+        labels: ['Pending', 'Processing', 'Out for delivery', 'Delivered'],
+        colors: ['#34c38f', '#f1b44c', '#556ee6', '#226ee6'],
         dataLabels: {
             enabled: true,
             formatter: val => val.toFixed(1) + '%',

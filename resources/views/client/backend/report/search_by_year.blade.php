@@ -51,7 +51,21 @@
                 <td>{{ $item->order->invoice_no }}</td>
                 <td>{{ $item->order->amount }}</td>
                 <td>{{ $item->order->payment_method }}</td>
-                <td><span class="badge bg-primary">{{ $item->order->status }}</span></td>                
+                <td>
+    @php
+        $status = strtolower($item->order->status);
+        $statusMap = [
+            'pending' => ['Pending', 'bg-info'],
+            'confirm' => ['Processing', 'bg-warning text-dark'],
+            'processing' => ['Out for Delivery', 'bg-primary'],
+            'deliverd' => ['Delivered', 'bg-success'],
+        ];
+    @endphp
+    <span class="badge {{ $statusMap[$status][1] ?? 'bg-secondary' }}">
+        {{ $statusMap[$status][0] ?? ucfirst($item->order->status) }}
+    </span>
+</td>
+               
                
                 
         <td><a href="{{ route('client.order.details',$item->order_id) }}" class="btn btn-info waves-effect waves-light"> <i class="fas fa-eye"></i> </a> 

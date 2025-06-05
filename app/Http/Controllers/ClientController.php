@@ -10,14 +10,17 @@ use App\Models\Client;
 
 class ClientController extends Controller
 {
+    // Show the client login form
     public function ClientLogin(){
         return view('client.client_login');
     }
 
+    // Show the client registration form
     public function ClientRegister(){
         return view('client.client_register');
     }
 
+    // Handle registration form submission
     public function ClientRegisterSubmit(Request $request){
         $request->validate([
             'name' => ['required','string','max:200'],
@@ -29,90 +32,72 @@ class ClientController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address,
-            'password' => Hash::make($request->password),
+            'password' => Hash::make($request->password), // Secure password
             'role' => 'client',
-            'status' => '0', 
+            'status' => '0', // Initially inactive
+            'created_at' => now(),
         ]);
 
-        $notification = array(
+        return redirect()->route('client.login')->with([
             'message' => 'Client Register Successfully',
             'alert-type' => 'success'
-        );
-        return redirect()->route('client.login')->with($notification);
+        ]);
     }
 
+    // Handle login form submission
     public function ClientLoginSubmit(Request $request){
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
-        $check = $request->all();
-        $data = [
-            'email' => $check['email'],
-            'password' => $check['password'],
-        ];
-        if (Auth::guard('client')->attempt($data)) {
+
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::guard('client')->attempt($credentials)) {
             return redirect()->route('client.dashboard')->with('success','Login Successfully');
         } else {
             return redirect()->route('client.login')->with('error','Invalid Credentials');
         }
     }
 
+    // Display client dashboard with statistics
     public function ClientDashboard(){
         $clientId = Auth::guard('client')->id();
 
-        $totalOrders = DB::table('order_items')
-            ->where('client_id', $clientId)
-            ->distinct('order_id')
-            ->count('order_id');
-
-        $totalRevenue = DB::table('order_items')
-            ->where('client_id', $clientId)
-            ->sum(DB::raw('qty * price'));
-
-        $totalTransactions = DB::table('order_items')
-            ->where('client_id', $clientId)
-            ->count();
-
-        $totalProducts = DB::table('products')
-            ->where('client_id', $clientId)
-            ->count();
-
+        $totalOrders = DB::table('order_items')->where('client_id', $clientId)->distinct('order_id')->count('order_id');
+        $totalRevenue = DB::table('order_items')->where('client_id', $clientId)->sum(DB::raw('qty * price'));
+        $totalTransactions = DB::table('order_items')->where('client_id', $clientId)->count();
+        $totalProducts = DB::table('products')->where('client_id', $clientId)->count();
         $pendingOrders = DB::table('orders')
             ->where('status', 'pending')
             ->whereIn('id', function ($query) use ($clientId) {
                 $query->select('order_id')->from('order_items')->where('client_id', $clientId);
-            })
-            ->count();
-
-        $totalMenus = DB::table('menus')
-            ->where('client_id', $clientId)
-            ->count();
-
+            })->count();
         $processingOrders = DB::table('orders')
-            ->where('status', 'processing')
+            ->where('status', 'confirm')
             ->whereIn('id', function ($query) use ($clientId) {
                 $query->select('order_id')->from('order_items')->where('client_id', $clientId);
             })->count();
-
         $deliveredOrders = DB::table('orders')
             ->where('status', 'deliverd')
             ->whereIn('id', function ($query) use ($clientId) {
                 $query->select('order_id')->from('order_items')->where('client_id', $clientId);
             })->count();
+        $outfordelivery = DB::table('orders')
+            ->where('status', 'processing')
+            ->whereIn('id', function ($query) use ($clientId) {
+                $query->select('order_id')->from('order_items')->where('client_id', $clientId);
+            })->count();
+        $totalMenus = DB::table('menus')->where('client_id', $clientId)->count();
+        $activeCoupons = DB::table('coupons')->where('client_id', $clientId)->whereDate('validity', '>=', now())->count();
 
-        $activeCoupons = DB::table('coupons')
-            ->where('client_id', $clientId)
-            ->whereDate('validity', '>=', now())
-            ->count();
-
+        // Monthly revenue calculation (last 6 months)
         $monthlyRevenue = [];
         $months = [];
 
-        for ($i = 5; $i >= 0; $i--) {
+        for ($i = 4; $i >= 0; $i--) {
             $month = now()->subMonths($i);
             $months[] = $month->format('M');
-
             $monthlyRevenue[] = DB::table('order_items')
                 ->where('client_id', $clientId)
                 ->whereMonth('created_at', $month->month)
@@ -120,6 +105,7 @@ class ClientController extends Controller
                 ->sum(DB::raw('qty * price'));
         }
 
+        // Top 5 best-selling products
         $topProducts = DB::table('order_items')
             ->select('products.name', DB::raw('SUM(order_items.qty) as total_sold'))
             ->join('products', 'order_items.product_id', '=', 'products.id')
@@ -143,23 +129,27 @@ class ClientController extends Controller
             'monthlyRevenue',
             'processingOrders',
             'deliveredOrders',
+            'outfordelivery',
             'months',
             'topProductNames',
             'topProductSales'
         ));
     }
 
+    // Logout client
     public function ClientLogout(){
         Auth::guard('client')->logout();
         return redirect()->route('client.login')->with('success','Logout Success');
     }
 
+    // Show client profile edit page
     public function ClientProfile(){
         $id = Auth::guard('client')->id();
         $profileData = Client::find($id);
         return view('client.client_profile', compact('profileData'));
     }
 
+    // Handle client profile update
     public function ClientProfileStore(Request $request){
         $id = Auth::guard('client')->id();
         $data = Client::find($id);
@@ -172,6 +162,7 @@ class ClientController extends Controller
 
         $oldPhotoPath = $data->photo;
 
+        // Handle profile photo upload
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
             $filename = time().'.'.$file->getClientOriginalExtension();
@@ -183,6 +174,7 @@ class ClientController extends Controller
             }
         }
 
+        // Handle cover photo upload
         if ($request->hasFile('cover_photo')) {
             $file1 = $request->file('cover_photo');
             $filename1 = time().'.'.$file1->getClientOriginalExtension();
@@ -192,14 +184,13 @@ class ClientController extends Controller
 
         $data->save();
 
-        $notification = array(
+        return redirect()->back()->with([
             'message' => 'Profile Updated Successfully',
             'alert-type' => 'success'
-        );
-
-        return redirect()->back()->with($notification);
+        ]);
     }
 
+    // Delete previous profile image from disk
     private function deleteOldImage(string $oldPhotoPath): void {
         $fullPath = public_path('upload/client_images/'.$oldPhotoPath);
         if (file_exists($fullPath)) {
@@ -207,12 +198,14 @@ class ClientController extends Controller
         }
     }
 
+    // Show password change form
     public function ClientChangePassword(){
         $id = Auth::guard('client')->id();
         $profileData = Client::find($id);
         return view('client.client_change_Password', compact('profileData'));
     }
 
+    // Handle password update
     public function ClientPasswordUpdate(Request $request){
         $client = Auth::guard('client')->user();
         $request->validate([
@@ -220,6 +213,7 @@ class ClientController extends Controller
             'new_password' => 'required|confirmed'
         ]);
 
+        // Check if old password matches
         if (!Hash::check($request->old_password, $client->password)) {
             return back()->with([
                 'message' => 'Old Password Does not Match!',
@@ -227,6 +221,7 @@ class ClientController extends Controller
             ]);
         }
 
+        // Save new password
         Client::whereId($client->id)->update([
             'password' => Hash::make($request->new_password)
         ]);

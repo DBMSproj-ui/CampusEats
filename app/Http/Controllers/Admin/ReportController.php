@@ -14,119 +14,124 @@ use DateTime;
 
 class ReportController extends Controller
 {
+    ///////////////////// ADMIN REPORT METHODS //////////////////////
+
+    // Show the main reports page for admin
     public function AminAllReports(){
         return view('admin.backend.report.all_report');
     }
-    // End Method 
 
+    // Search admin reports by a specific date
     public function AminSearchByDate(Request $request){
         $date = new DateTime($request->date);
-        $formatDate = $date->format('d F Y');
+        $formatDate = $date->format('d F Y'); // Format: 03 June 2024
 
-        $orderDate = Order::where('order_date',$formatDate)->latest()->get();
-        return view('admin.backend.report.search_by_date',compact('orderDate','formatDate'));
+        // Get all orders that match the selected date
+        $orderDate = Order::where('order_date', $formatDate)->latest()->get();
+        return view('admin.backend.report.search_by_date', compact('orderDate', 'formatDate'));
     }
-      // End Method 
 
+    // Search admin reports by month and year
     public function AminSearchByMonth(Request $request){
         $month = $request->month;
         $years = $request->year_name;
 
-        $orderMonth = Order::where('order_month',$month)->where('order_year',$years)->latest()->get();
-        return view('admin.backend.report.search_by_month',compact('orderMonth','month','years'));
-    }
-     // End Method 
+        // Get all orders that match the selected month and year
+        $orderMonth = Order::where('order_month', $month)
+            ->where('order_year', $years)
+            ->latest()->get();
 
-     public function AminSearchByYear(Request $request){ 
+        return view('admin.backend.report.search_by_month', compact('orderMonth', 'month', 'years'));
+    }
+
+    // Search admin reports by year
+    public function AminSearchByYear(Request $request){ 
         $years = $request->year;
 
-        $orderYear = Order::where('order_year',$years)->latest()->get();
-        return view('admin.backend.report.search_by_year',compact('orderYear','years'));
+        // Get all orders that match the selected year
+        $orderYear = Order::where('order_year', $years)->latest()->get();
+        return view('admin.backend.report.search_by_year', compact('orderYear', 'years'));
     }
-     // End Method 
 
+    ///////////////////// CLIENT REPORT METHODS //////////////////////
 
-////////////// FOR Client Report all Method /////////
-
-
-     public function ClientAllReports(){
+    // Show the main reports page for the client
+    public function ClientAllReports(){
         return view('client.backend.report.all_report');
     }
-    // End Method 
 
+    // Search client-specific reports by date
     public function ClientSearchByDate(Request $request){
         $date = new DateTime($request->date);
         $formatDate = $date->format('d F Y');
-
         $cid = Auth::guard('client')->id();
 
-        $orders = Order::where('order_date',$formatDate)
-        ->whereHas('OrderItems', function ($query) use ($cid){
-            $query->where('client_id',$cid);
-        })
-        ->latest()
-        ->get();
+        // Get all orders that belong to this client (indirectly via order items)
+        $orders = Order::where('order_date', $formatDate)
+            ->whereHas('OrderItems', function ($query) use ($cid) {
+                $query->where('client_id', $cid);
+            })
+            ->latest()
+            ->get();
 
-        $orderItemGroupData = OrderItem::with(['order','product'])
-        ->whereIn('order_id',$orders->pluck('id'))
-        ->where('client_id',$cid)
-        ->orderBy('order_id','desc')
-        ->get()
-        ->groupBy('order_id');
+        // Fetch and group all order items for those orders
+        $orderItemGroupData = OrderItem::with(['order', 'product'])
+            ->whereIn('order_id', $orders->pluck('id'))
+            ->where('client_id', $cid)
+            ->orderBy('order_id', 'desc')
+            ->get()
+            ->groupBy('order_id');
 
-        return view('client.backend.report.search_by_date',compact('orderItemGroupData','formatDate'));
+        return view('client.backend.report.search_by_date', compact('orderItemGroupData', 'formatDate'));
     }
-      // End Method 
 
-      public function ClientSearchByMonth(Request $request){
+    // Search client-specific reports by month and year
+    public function ClientSearchByMonth(Request $request){
         $month = $request->month;
         $years = $request->year_name;
-
         $cid = Auth::guard('client')->id();
 
-        $orders = Order::where('order_month',$month)->where('order_year',$years)
-        ->whereHas('OrderItems', function ($query) use ($cid){
-            $query->where('client_id',$cid);
-        })
-        ->latest()
-        ->get();
+        // Filter orders by month/year where client is involved
+        $orders = Order::where('order_month', $month)
+            ->where('order_year', $years)
+            ->whereHas('OrderItems', function ($query) use ($cid) {
+                $query->where('client_id', $cid);
+            })
+            ->latest()
+            ->get();
 
-        $orderItemGroupData = OrderItem::with(['order','product'])
-        ->whereIn('order_id',$orders->pluck('id'))
-        ->where('client_id',$cid)
-        ->orderBy('order_id','desc')
-        ->get()
-        ->groupBy('order_id');
+        // Group order items for display
+        $orderItemGroupData = OrderItem::with(['order', 'product'])
+            ->whereIn('order_id', $orders->pluck('id'))
+            ->where('client_id', $cid)
+            ->orderBy('order_id', 'desc')
+            ->get()
+            ->groupBy('order_id');
 
-        return view('client.backend.report.search_by_month',compact('orderItemGroupData','month','years'));
+        return view('client.backend.report.search_by_month', compact('orderItemGroupData', 'month', 'years'));
     }
-      // End Method 
 
-      public function ClientSearchByYear(Request $request){
-         
+    // Search client-specific reports by year
+    public function ClientSearchByYear(Request $request){
         $years = $request->year;
-
         $cid = Auth::guard('client')->id();
 
-        $orders = Order::where('order_year',$years)
-        ->whereHas('OrderItems', function ($query) use ($cid){
-            $query->where('client_id',$cid);
-        })
-        ->latest()
-        ->get();
+        // Get orders for the given year where the client is involved
+        $orders = Order::where('order_year', $years)
+            ->whereHas('OrderItems', function ($query) use ($cid) {
+                $query->where('client_id', $cid);
+            })
+            ->latest()
+            ->get();
 
-        $orderItemGroupData = OrderItem::with(['order','product'])
-        ->whereIn('order_id',$orders->pluck('id'))
-        ->where('client_id',$cid)
-        ->orderBy('order_id','desc')
-        ->get()
-        ->groupBy('order_id');
+        // Get all relevant order items for those orders
+        $orderItemGroupData = OrderItem::with(['order', 'product'])
+            ->whereIn('order_id', $orders->pluck('id'))
+            ->where('client_id', $cid)
+            ->orderBy('order_id', 'desc')
+            ->get()
+            ->groupBy('order_id');
 
-        return view('client.backend.report.search_by_year',compact('orderItemGroupData','years'));
+        return view('client.backend.report.search_by_year', compact('orderItemGroupData', 'years'));
     }
-      // End Method 
-
-
-
-
 }

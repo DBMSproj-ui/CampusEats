@@ -49,7 +49,21 @@
                 <td>{{ $item->invoice_no }}</td>
                 <td>{{ $item->amount }}</td>
                 <td>{{ $item->payment_method }}</td>
-                <td><span class="badge bg-primary">{{ $item->status }}</span></td>                
+                <td>
+    @php
+        $status = strtolower($item->status);
+        $statusMap = [
+            'pending' => ['Pending', 'bg-info'],
+            'confirm' => ['Processing', 'bg-warning text-dark'],
+            'processing' => ['Out for Delivery', 'bg-primary'],
+            'deliverd' => ['Delivered', 'bg-success'],
+        ];
+    @endphp
+    <span class="badge {{ $statusMap[$status][1] ?? 'bg-secondary' }}">
+        {{ $statusMap[$status][0] ?? ucfirst($item->status) }}
+    </span>
+</td>
+               
                
                 
         <td><a href="{{ route('admin.order.details',$item->id) }}" class="btn btn-info waves-effect waves-light"> <i class="fas fa-eye"></i> </a> 

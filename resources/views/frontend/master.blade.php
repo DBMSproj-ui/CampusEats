@@ -9,7 +9,7 @@
       <meta name="author" content="Askbootstrap">
       <title>campuseats</title>
       <!-- Favicon Icon -->
-      <link rel="icon" type="image/png" href="{{ asset('frontend/img/favicon.png') }}">
+
       <!-- Bootstrap core CSS-->
       <link href="{{ asset('frontend/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
       <!-- Font Awesome-->
